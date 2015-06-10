@@ -1,0 +1,24 @@
+web:
+  image: docker0/nginx
+  ports:
+    - "8080:80"
+  volumes:
+    - ./src:/var/www
+    - ./image/nginx/nginx.conf:/etc/nginx/sites-enabled/docker0.conf
+  links:
+    - php
+php:
+  image: nmcteam/php56
+  volumes:
+    - ./image/php/php-fpm.conf:/etc/php5/fpm/php-fpm.conf
+    - ./src:/var/www
+  links:
+    - db
+db:
+  image: sameersbn/mysql
+  volumes:
+   - /var/lib/mysql
+  environment:
+   - DB_NAME=docker0
+   - DB_USER=root
+   - DB_PASS=root
